@@ -60,7 +60,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.8" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.3.8" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.3.8" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.31" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:5.3.8" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:2.5.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-json:2.5.2" level="project" />
@@ -108,5 +107,7 @@
     <orderEntry type="library" name="Maven: io.micrometer:micrometer-registry-prometheus:1.7.1" level="project" />
     <orderEntry type="library" name="Maven: io.prometheus:simpleclient_common:0.10.0" level="project" />
     <orderEntry type="library" name="Maven: io.prometheus:simpleclient:0.10.0" level="project" />
+    <orderEntry type="library" name="Maven: io.micrometer:micrometer-registry-dynatrace:1.7.1" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.31" level="project" />
   </component>
 </module>
