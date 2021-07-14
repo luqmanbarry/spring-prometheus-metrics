@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -42,6 +39,9 @@ public class TodoRestController {
             .name(RandomStringUtils.randomAlphabetic(5))
             .description(RandomStringUtils.randomAlphabetic(10))
             .build();
+    if (localDataStore.size() > TodoAppConstants.MAX_LOCAL_DB_SIZE) {
+      localDataStore.clear();
+    }
     localDataStore.put(String.valueOf(input.getId()), input);
     log.info("End: TodoRestController.createTodo()");
     return input;

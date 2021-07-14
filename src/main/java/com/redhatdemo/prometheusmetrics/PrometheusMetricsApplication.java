@@ -16,7 +16,7 @@ public class PrometheusMetricsApplication {
 
 	@Bean
 	public Map<String, Object> localDataStore() {
-		return new HashMap<>(5000);
+		return new HashMap<>(TodoAppConstants.MAX_LOCAL_DB_SIZE);
 	}
 
 }
