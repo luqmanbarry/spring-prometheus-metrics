@@ -1,7 +1,10 @@
 package com.redhatdemo.prometheusmetrics;
 
+import io.micrometer.core.annotation.Counted;
+import io.micrometer.core.annotation.Timed;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,11 +20,17 @@ import java.util.Map;
 public class TodoRestController {
 
   private Map<String, Object> localDataStore;
+  private String applicationName;
 
-  TodoRestController(@Qualifier("localDataStore") Map<String, Object> localDataStore) {
+  TodoRestController(
+      @Qualifier("localDataStore") Map<String, Object> localDataStore,
+      @Value("${spring.application.name}") String applicationName) {
     this.localDataStore = localDataStore;
+    this.applicationName = applicationName;
   }
 
+  @Counted(value = "prometheus-metrics:/todos/add:call_count", description = "count of /todos endpoint calls")
+  @Timed(value = "prometheus-metrics:/todos/add:process_time", description = "A measure of how long it takes to process fetch todos")
   @GetMapping("/todos/add")
   Todo createTodo() {
     Todo input =
@@ -35,6 +44,8 @@ public class TodoRestController {
     return input;
   }
 
+  @Counted(value = "prometheus-metrics:/todos:call_count", description = "count of /todos endpoint calls")
+  @Timed(value = "prometheus-metrics:/todos:call_process_time", description = "A measure of how long it takes to process fetch todos")
   @GetMapping("/todos")
   List getAllTodos() {
     if (localDataStore.isEmpty()) {
@@ -43,12 +54,16 @@ public class TodoRestController {
     return Arrays.asList(localDataStore.values().toArray());
   }
 
+  @Counted(value = "prometheus-metrics:/:call_count", description = "count of /todos endpoint calls")
+  @Timed(value = "prometheus-metrics:/:call_process_time", description = "A measure of how long it takes to process fetch todos")
   @GetMapping
   public String welcome() {
-    return "{\"message\": \"Welcome to Monitoring with Prometheus demo app.\", " +
-            "\"endpoints\": [\"/actuator\", \"/actuator/prometheus\", \"/todos\", \"/todos/add\", \"/todos/{id}\"]}";
+    return "{\"message\": \"Welcome to Monitoring with Prometheus demo app.\", "
+        + "\"endpoints\": [\"/actuator\", \"/actuator/prometheus\", \"/todos\", \"/todos/add\", \"/todos/{id}\"]}";
   }
 
+  @Counted(value = "prometheus-metrics:/todos/{id}:call_count", description = "count of /todos endpoint calls")
+  @Timed(value = "prometheus-metrics:/todos/{id}:call_process_time", description = "A measure of how long it takes to process fetch todos")
   @GetMapping("/todos/{id}")
   public Object findById(@PathVariable("id") int id) {
     return localDataStore.get(id);
