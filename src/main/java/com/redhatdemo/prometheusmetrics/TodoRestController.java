@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +36,10 @@ public class TodoRestController {
   }
 
   @GetMapping("/todos")
-  List<Object> getAllTodos() {
+  List getAllTodos() {
+    if (localDataStore.isEmpty()) {
+      return Collections.emptyList();
+    }
     return Arrays.asList(localDataStore.values().toArray());
   }
 

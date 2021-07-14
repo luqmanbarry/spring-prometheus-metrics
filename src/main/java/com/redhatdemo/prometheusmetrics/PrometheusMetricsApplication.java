@@ -16,7 +16,7 @@ public class PrometheusMetricsApplication {
 
 	@Bean
 	public Map<String, Object> localDataStore() {
-		return new HashMap<>();
+		return new HashMap<>(5000);
 	}
 
 }
