@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -64,6 +66,7 @@ public class TodoRestController {
   @GetMapping
   public String welcome() {
     log.info("Start: TodoRestController.welcome()");
+    manyThreads();
     return "{\"message\": \"Welcome to Monitoring with Prometheus demo app.\", "
         + "\"endpoints\": [\"/actuator\", \"/actuator/prometheus\", \"/todos\", \"/todos/add\", \"/todos/{id}\"]}";
   }
@@ -74,5 +77,24 @@ public class TodoRestController {
   public Object getTodoById(@PathVariable("id") int id) {
     log.info("Start: TodoRestController.getTodoById()");
     return localDataStore.get(id);
+  }
+
+  private void manyThreads() {
+    for (int i = 0; i <= 10; i++) {
+      CompletableFuture.runAsync(() -> delayExecution());
+    }
+  }
+
+  private void delayExecution() {
+    stressAppMemory();
+  }
+
+  private void stressAppMemory() {
+    int stressLimit = 1000000;
+    List<String> stressData = new ArrayList<>(stressLimit);
+    for(int i = 0; i < stressLimit; i++) {
+      stressData.add(RandomStringUtils.randomAlphabetic(100));
+    }
+    stressData.stream().map(item -> item.toUpperCase()).collect(Collectors.toList());
   }
 }

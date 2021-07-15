@@ -1,0 +1,37 @@
+apiVersion: v1
+data:
+  DYNATRACE_API_TOKEN: dt0c01.A3EBZFL3HZBRCA34GC3ZIBF2.P3PQQ6X7VGF4MLZWUC65BK4S3EE3IJ4LELRJBKFM7YH6UJ3HWY5FORTSCI4HRY5Q
+  DYNATRACE_URI: https://jhu45378.live.dynatrace.com/
+kind: ConfigMap
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","data":{"DYNATRACE_API_TOKEN":"dt0c01.WGO4J4VC4RSB7X5UTUCHF6XA.3Y5E5SRENSXHJFHCRPMJDYUWTHOOI46WTZ6QLJUDK7UMBW3RBVD4J2YDPHZHJRZG","DYNATRACE_URI":"https://jhu45378.live.dynatrace.com/"},"kind":"ConfigMap","metadata":{"annotations":{},"creationTimestamp":null,"name":"dynatrace-config","namespace":"dynatrace-test"}}
+  creationTimestamp: "2021-07-13T16:06:17Z"
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:data:
+        .: {}
+        f:DYNATRACE_URI: {}
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:kubectl.kubernetes.io/last-applied-configuration: {}
+    manager: oc
+    operation: Update
+    time: "2021-07-13T16:06:17Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:data:
+        f:DYNATRACE_API_TOKEN: {}
+    manager: Mozilla
+    operation: Update
+    time: "2021-07-13T19:50:21Z"
+  name: dynatrace-config
+  namespace: dynatrace-test
+  resourceVersion: "3309168"
+  selfLink: /api/v1/namespaces/dynatrace-test/configmaps/dynatrace-config
+  uid: 9b1c338f-57f9-4513-b0ee-1e40572cb4e5

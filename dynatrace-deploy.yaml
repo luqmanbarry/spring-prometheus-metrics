@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dynatrace-app
+  name: dynatrace-app
+  namespace: dynatrace-poc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dynatrace-app
+  template:
+    metadata:
+      labels:
+        app: dynatrace-app
+      name: dynatrace-app
+    spec:
+      containers:
+      - name: dynatrace-app
+        image: quay.io/luqmanbarry/prometheus-metrics:dynatrace
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
