@@ -1,8 +1,7 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: dyna-hpa-http-requests-total
-  namespace: dynatrace-poc
+  name: dyna-hpa-jvm-live-threads-count
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -11,11 +10,10 @@ spec:
   minReplicas: 1
   maxReplicas: 10
   metrics:
-  - type: Object
-    object:
+  - type: Pods
+    pods:
       metric:
-        name: http_server_requests_seconds_count
-        selector: "app=dynatrace-app"
+        name: jvm_threads_live
       target:
         type: AverageValue
-        averageValue: 200
+        averageValue: 15.0

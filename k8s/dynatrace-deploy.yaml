@@ -4,7 +4,6 @@ metadata:
   labels:
     app: dynatrace-app
   name: dynatrace-app
-  namespace: dynatrace-poc
 spec:
   replicas: 1
   selector:
@@ -22,3 +21,10 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
+#        resources:
+##          requests:
+##            memory: "300Mi"
+##            cpu: "200m"
+#          limits:
+#            memory: "500Mi"
+#            cpu: "400m"

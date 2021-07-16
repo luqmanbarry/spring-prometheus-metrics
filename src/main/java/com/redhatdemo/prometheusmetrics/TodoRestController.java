@@ -46,7 +46,8 @@ public class TodoRestController {
     }
     localDataStore.put(String.valueOf(input.getId()), input);
     log.info("End: TodoRestController.createTodo()");
-    manyThreads();
+    stressAppMemory();
+    stressAppCPU();
     return input;
   }
 
@@ -59,7 +60,7 @@ public class TodoRestController {
       return Collections.emptyList();
     }
     log.info("End: TodoRestController.getAllTodos()");
-    manyThreads();
+    stressAppCPU();
     return Arrays.asList(localDataStore.values().toArray());
   }
 
@@ -68,7 +69,8 @@ public class TodoRestController {
   @GetMapping
   public String welcome() {
     log.info("Start: TodoRestController.welcome()");
-    manyThreads();
+    stressAppCPU();
+//    stressAppMemory();
     return "{\"message\": \"Welcome to Monitoring with Prometheus demo app.\", "
         + "\"endpoints\": [\"/actuator\", \"/actuator/prometheus\", \"/todos\", \"/todos/add\", \"/todos/{id}\"]}";
   }
@@ -81,21 +83,25 @@ public class TodoRestController {
     return localDataStore.get(id);
   }
 
-  private void manyThreads() {
+  private void stressAppCPU() {
     for (int i = 0; i <= 100; i++) {
       CompletableFuture.runAsync(() -> delayExecution());
     }
   }
 
   private void delayExecution() {
-    stressAppMemory();
+    try {
+      Thread.sleep(10000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
   }
 
   private void stressAppMemory() {
-    int stressLimit = Integer.MAX_VALUE;
+    int stressLimit = 5;
     List<String> stressData = new ArrayList<>(stressLimit);
     for(int i = 0; i < stressLimit; i++) {
-      stressData.add(RandomStringUtils.randomAlphabetic(1000));
+      stressData.add(RandomStringUtils.randomAlphabetic(1));
     }
     stressData.stream()
             .map(item -> item.toUpperCase())

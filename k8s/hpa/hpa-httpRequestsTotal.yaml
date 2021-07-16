@@ -1,8 +1,7 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: dyna-hpa-pod-total-memory
-  namespace: dynatrace-poc
+  name: dyna-hpa-http-requests-total
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -11,9 +10,10 @@ spec:
   minReplicas: 1
   maxReplicas: 10
   metrics:
-  - type: Resource
-    resource:
-      name: memory
+  - type: Pods
+    pods:
+      metric:
+        name: http_server_requests_seconds_count
       target:
         type: AverageValue
-        averageValue: 150Mi
+        averageValue: 25

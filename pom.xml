@@ -58,6 +58,8 @@
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-registry-dynatrace</artifactId>
 		</dependency>
+
+
 	</dependencies>
 
 	<build>

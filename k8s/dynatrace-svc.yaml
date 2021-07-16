@@ -4,7 +4,6 @@ metadata:
   labels:
     name: dynatrace-app
   name: dynatrace-app
-  namespace: dynatrace-poc
 spec:
   ports:
   - name: http

@@ -109,6 +109,5 @@
     <orderEntry type="library" name="Maven: io.prometheus:simpleclient:0.10.0" level="project" />
     <orderEntry type="library" name="Maven: io.micrometer:micrometer-registry-dynatrace:1.7.1" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.31" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.metrics:spring-metrics:0.5.1.RELEASE" level="project" />
   </component>
 </module>
