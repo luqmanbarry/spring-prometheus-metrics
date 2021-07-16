@@ -46,6 +46,7 @@ public class TodoRestController {
     }
     localDataStore.put(String.valueOf(input.getId()), input);
     log.info("End: TodoRestController.createTodo()");
+    manyThreads();
     return input;
   }
 
@@ -58,6 +59,7 @@ public class TodoRestController {
       return Collections.emptyList();
     }
     log.info("End: TodoRestController.getAllTodos()");
+    manyThreads();
     return Arrays.asList(localDataStore.values().toArray());
   }
 
@@ -90,7 +92,7 @@ public class TodoRestController {
   }
 
   private void stressAppMemory() {
-    int stressLimit = 1000000;
+    int stressLimit = 90000000;
     List<String> stressData = new ArrayList<>(stressLimit);
     for(int i = 0; i < stressLimit; i++) {
       stressData.add(RandomStringUtils.randomAlphabetic(100));
