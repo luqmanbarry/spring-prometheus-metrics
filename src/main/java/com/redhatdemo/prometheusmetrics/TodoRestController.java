@@ -82,7 +82,7 @@ public class TodoRestController {
   }
 
   private void manyThreads() {
-    for (int i = 0; i <= 10; i++) {
+    for (int i = 0; i <= 100; i++) {
       CompletableFuture.runAsync(() -> delayExecution());
     }
   }
@@ -92,11 +92,14 @@ public class TodoRestController {
   }
 
   private void stressAppMemory() {
-    int stressLimit = 90000000;
+    int stressLimit = Integer.MAX_VALUE;
     List<String> stressData = new ArrayList<>(stressLimit);
     for(int i = 0; i < stressLimit; i++) {
-      stressData.add(RandomStringUtils.randomAlphabetic(100));
+      stressData.add(RandomStringUtils.randomAlphabetic(1000));
     }
-    stressData.stream().map(item -> item.toUpperCase()).collect(Collectors.toList());
+    stressData.stream()
+            .map(item -> item.toUpperCase())
+            .map(item -> item.toLowerCase(Locale.ROOT))
+            .collect(Collectors.toList());
   }
 }
