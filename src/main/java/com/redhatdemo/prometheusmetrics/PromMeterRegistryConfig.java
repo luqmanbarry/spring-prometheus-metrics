@@ -11,7 +11,7 @@ public class PromMeterRegistryConfig {
   @Value("${spring.application.name}")
   String appName;
 
-  @Value("${spring.application.profiles.active}")
+  @Value("${spring.profiles.active}")
   String environment;
 
   @Value("${HOSTNAME:1}")

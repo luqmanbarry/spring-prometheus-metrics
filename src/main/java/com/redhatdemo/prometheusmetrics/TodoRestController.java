@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -29,8 +30,12 @@ public class TodoRestController {
     this.applicationName = applicationName;
   }
 
-  @Counted(value = "prometheus-metrics:createTodo_call_count", description = "count of /todos endpoint calls")
-  @Timed(value = "prometheus-metrics:createTodo_process_time", description = "A measure of how long it takes to process fetch todos")
+  @Counted(
+      value = "prometheus-metrics:createTodo_call_count",
+      description = "count of /todos endpoint calls")
+  @Timed(
+      value = "prometheus-metrics:createTodo_process_time",
+      description = "A measure of how long it takes to process fetch todos")
   @GetMapping("/todos/add")
   Todo createTodo() {
     log.info("Start: TodoRestController.createTodo()");
@@ -51,8 +56,12 @@ public class TodoRestController {
     return input;
   }
 
-  @Counted(value = "prometheus-metrics:getAllTodos_call_count", description = "count of /todos endpoint calls")
-  @Timed(value = "prometheus-metrics:getAllTodos_call_process_time", description = "A measure of how long it takes to process fetch todos")
+  @Counted(
+      value = "prometheus-metrics:getAllTodos_call_count",
+      description = "count of /todos endpoint calls")
+  @Timed(
+      value = "prometheus-metrics:getAllTodos_call_process_time",
+      description = "A measure of how long it takes to process fetch todos")
   @GetMapping("/todos")
   List getAllTodos() {
     log.info("Start: TodoRestController.getAllTodos()");
@@ -61,11 +70,16 @@ public class TodoRestController {
     }
     log.info("End: TodoRestController.getAllTodos()");
     stressAppCPU();
+//    stressAppMemory();
     return Arrays.asList(localDataStore.values().toArray());
   }
 
-  @Counted(value = "prometheus-metrics:welcome_call_count", description = "count of /todos endpoint calls")
-  @Timed(value = "prometheus-metrics:welcome_call_process_time", description = "A measure of how long it takes to process fetch todos")
+  @Counted(
+      value = "prometheus-metrics:welcome_call_count",
+      description = "count of /todos endpoint calls")
+  @Timed(
+      value = "prometheus-metrics:welcome_call_process_time",
+      description = "A measure of how long it takes to process fetch todos")
   @GetMapping
   public String welcome() {
     log.info("Start: TodoRestController.welcome()");
@@ -75,8 +89,12 @@ public class TodoRestController {
         + "\"endpoints\": [\"/actuator\", \"/actuator/prometheus\", \"/todos\", \"/todos/add\", \"/todos/{id}\"]}";
   }
 
-  @Counted(value = "prometheus-metrics:getTodoById_call_count", description = "count of /todos endpoint calls")
-  @Timed(value = "prometheus-metrics:getTodoById_call_process_time", description = "A measure of how long it takes to process fetch todos")
+  @Counted(
+      value = "prometheus-metrics:getTodoById_call_count",
+      description = "count of /todos endpoint calls")
+  @Timed(
+      value = "prometheus-metrics:getTodoById_call_process_time",
+      description = "A measure of how long it takes to process fetch todos")
   @GetMapping("/todos/{id}")
   public Object getTodoById(@PathVariable("id") int id) {
     log.info("Start: TodoRestController.getTodoById()");
@@ -84,28 +102,27 @@ public class TodoRestController {
   }
 
   private void stressAppCPU() {
-    for (int i = 0; i <= 100; i++) {
-      CompletableFuture.runAsync(() -> delayExecution());
-    }
+    //    for (int i = 0; i <= 3; i++) {
+    CompletableFuture.runAsync(() -> spikeCPUCycles());
+    //    }
   }
 
-  private void delayExecution() {
-    try {
-      Thread.sleep(10000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+  private void spikeCPUCycles() {
+    double cpuVar = 0.00001d;
+    for (int i = 0; i < Long.MAX_VALUE; i++) {
+      cpuVar += Math.sqrt(cpuVar);
     }
   }
 
   private void stressAppMemory() {
     int stressLimit = 5;
     List<String> stressData = new ArrayList<>(stressLimit);
-    for(int i = 0; i < stressLimit; i++) {
-      stressData.add(RandomStringUtils.randomAlphabetic(1));
+    for (int i = 0; i < stressLimit; i++) {
+      stressData.add(RandomStringUtils.randomAlphabetic(10));
     }
     stressData.stream()
-            .map(item -> item.toUpperCase())
-            .map(item -> item.toLowerCase(Locale.ROOT))
-            .collect(Collectors.toList());
+        .map(item -> item.toUpperCase())
+        .map(item -> item.toLowerCase(Locale.ROOT))
+        .collect(Collectors.toList());
   }
 }

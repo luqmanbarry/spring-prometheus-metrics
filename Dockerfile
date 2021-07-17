@@ -1,5 +1,6 @@
-FROM registry.access.redhat.com/ubi8/openjdk-11:latest
+# FROM registry.access.redhat.com/ubi8/openjdk-11:latest
 # FROM azul/zulu-openjdk:11
+FROM adoptopenjdk/openjdk11:x86_64-alpine-jre-11.0.11_9
 
 # COPY --from=jhu45378.live.dynatrace.com/linux/oneagent-codemodules:java / /
 # ENV LD_PRELOAD /opt/dynatrace/oneagent/agent/lib64/liboneagentproc.so

@@ -1,6 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    metrics.dynatrace.com/scrape: 'true'
+    metrics.dynatrace.com/path: '/actuator/prometheus'
+    metrics.dynatrace.com/port: '8080'
+    metrics.dynatrace.com/secure: 'false'
   labels:
     app: dynatrace-app
   name: dynatrace-app
@@ -20,11 +25,32 @@ spec:
         image: quay.io/luqmanbarry/prometheus-metrics:dynatrace
         imagePullPolicy: Always
         ports:
-        - containerPort: 8080
-#        resources:
-##          requests:
-##            memory: "300Mi"
-##            cpu: "200m"
-#          limits:
-#            memory: "500Mi"
-#            cpu: "400m"
+        - name: app-port
+          containerPort: 8080
+#        startupProbe:
+#          httpGet:
+#            path: /
+#            port: app-port
+#          failureThreshold: 30
+#          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: app-port
+          failureThreshold: 10
+          periodSeconds: 10
+          initialDelaySeconds: 60
+        readinessProbe:
+          httpGet:
+            path: /
+            port: app-port
+          failureThreshold: 10
+          periodSeconds: 10
+          initialDelaySeconds: 70
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "100m"
+          limits:
+            memory: "300Mi"
+            cpu: "200m"

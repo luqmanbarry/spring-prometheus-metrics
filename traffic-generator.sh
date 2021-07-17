@@ -2,7 +2,7 @@
 
 APP_HOST=${1}
 
-if [ -z "${APP_HOST}" ] || [ "${APP_HOST}" == " "]; then
+if [ -z "${APP_HOST}" ] || [ "${APP_HOST}" == " " ]; then
   echo "Application host required. Exiting..."
   exit -1;
 fi
@@ -49,6 +49,6 @@ while true; do
 
   echo "\n======================================>\n"
 
-  sleep 0.5s;
+#  sleep 0.5s;
 done
 
